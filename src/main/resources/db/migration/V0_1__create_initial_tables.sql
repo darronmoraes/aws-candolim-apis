@@ -1,9 +1,11 @@
 -- create tickets
 CREATE TABLE tickets (
     id VARCHAR(36) NOT NULL,
-    serial_number VARCHAR(15),
+    serial_number VARCHAR(15) NOT NULL,
     amount DOUBLE NOT NULL,
-    pax INTEGER NOT NULL,
+    passenger INTEGER NOT NULL,
+    payment_mode ENUM ('upi', 'cash', 'card', 'cash_upi') NOT NULL,
+    gstn VARCHAR(45) NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     deleted TINYINT(1) NOT NULL DEFAULT 0,
@@ -18,7 +20,8 @@ CREATE TABLE tickets (
 CREATE TABLE vehicles (
     id VARCHAR(36) NOT NULL,
     number_suffix VARCHAR(4) NOT NULL,
-    type ENUM ('Cab', 'Mini_Bus', 'Bus', '2_Wheeler', 'Car'),
+    name VARCHAR(25) NOT NULL,
+    type ENUM ('Cab', 'Mini_Bus', 'Bus', 'Two_Wheeler', 'Car'),
     commissioned TINYINT(1) NOT NULL DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -42,5 +45,5 @@ CREATE TABLE commissions (
     -- constraints
     CONSTRAINT commissions_key_1 PRIMARY KEY (id),
     CONSTRAINT commissions_key_2 FOREIGN KEY (ticket_id) REFERENCES tickets (id) ON DELETE CASCADE,
-    CONSTRAINT commissions_key_3 FOREIGN KEY (vehicle_id) REFERENCES vehicles (id) ON DELETE CASCADE
+    CONSTRAINT commissions_key_3 FOREIGN KEY (vehicle_id) REFERENCES vehicles (id)
 );
