@@ -34,6 +34,10 @@ public class Vehicle implements Serializable {
     @Column(nullable = false)
     private Boolean commissioned;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ticket_id", unique = true)
+    private Ticket ticket;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 

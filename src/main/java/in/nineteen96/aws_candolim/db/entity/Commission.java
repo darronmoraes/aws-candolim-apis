@@ -23,10 +23,6 @@ public class Commission {
     @UuidGenerator
     private String id;
 
-    @OneToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    @JoinColumn(name = "ticket_id", unique = true)
-    private Ticket ticket;
-
     @ManyToOne
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
