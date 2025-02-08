@@ -34,7 +34,6 @@ public class Vehicle implements Serializable {
     @Column(nullable = false)
     private Boolean commissioned;
 
-    @Column
     private String name;
 
     @OneToOne(fetch = FetchType.LAZY)
