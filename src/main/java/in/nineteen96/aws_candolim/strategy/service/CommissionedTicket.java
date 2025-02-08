@@ -18,6 +18,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+import static in.nineteen96.aws_candolim.util.CommissionUtil.getCommission;
+import static in.nineteen96.aws_candolim.util.TicketUtil.getTicketFromRequest;
+import static in.nineteen96.aws_candolim.util.VehicleUtil.getVehicleFromRequest;
+
 @Service
 @Slf4j
 public class CommissionedTicket implements TicketCreationStrategy {
@@ -40,7 +44,7 @@ public class CommissionedTicket implements TicketCreationStrategy {
 
         log.info("getting ticket payload");
         Ticket ticket = getTicketFromRequest(request);
-
+        ticket.setSerialNumber(ticketService.getSerialNumber());
         ticketService.save(ticket);
 
         log.info("getting vehicle payload");
@@ -63,40 +67,6 @@ public class CommissionedTicket implements TicketCreationStrategy {
                 .timestamp(LocalDateTime.now())
                 .success(true)
                 .build();
-    }
-
-    public Ticket getTicketFromRequest(CreateTicketRequestPayload request) {
-        Ticket ticket = new Ticket();
-
-        ticket.setSerialNumber(ticketService.getSerialNumber());
-        ticket.setAmount(request.getAmount());
-        ticket.setPassenger(request.getPassengers());
-        ticket.setPaymentMode(request.getPaymentMode());
-        ticket.setGstNumber(request.getGstNumber());
-        ticket.setDeleted(false);
-
-        return ticket;
-    }
-
-    public Vehicle getVehicleFromRequest(CreateTicketRequestPayload request) {
-        Vehicle vehicle = new Vehicle();
-
-        vehicle.setType(request.getVehicleType());
-        vehicle.setCommissioned(request.isCommissioned());
-        vehicle.setNumberSuffix(request.getVehicleNumberSuffix());
-        vehicle.setName(request.getVehicleName());
-
-        return vehicle;
-    }
-
-    public Commission getCommission(int passengersCount) {
-        Commission commission = new Commission();
-
-        Double commissionAmount = Constants.COMMISSION_AMOUNT * passengersCount;
-        commission.setAmount(commissionAmount);
-        commission.setStatus(PaymentStatus.Pending);
-
-        return commission;
     }
 
 }
