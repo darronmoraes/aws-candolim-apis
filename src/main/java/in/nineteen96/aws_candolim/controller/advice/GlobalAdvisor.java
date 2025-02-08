@@ -15,17 +15,27 @@ import java.util.Collections;
 @Slf4j
 public class GlobalAdvisor {
 
-//    HttpMessageNotReadableException
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ErrorResponse> handleJobPostingAlreadyExistsException(HttpMessageNotReadableException e) {
-        log.error("invoked handleJobPostingAlreadyExistsException \n{}", e.getMessage());
-        ErrorResponse errorResponse = ErrorResponse.builder()
-                .exception("Http Message Not Readable Exception")
-                .errorMessage("request body is missing")
-                .status(HttpStatus.BAD_REQUEST)
-                .timestamp(LocalDateTime.now())
-                .success(false)
-                .build();
+    public ResponseEntity<ErrorResponse> handlerHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+        log.error("invoked handlerHttpMessageNotReadableException \n{}", e.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setException("Http Message Not Readable Exception");
+        errorResponse.setErrorMessage("request body is missing");
+        errorResponse.setStatus(HttpStatus.BAD_REQUEST);
+        errorResponse.setTimestamp(LocalDateTime.now());
+        errorResponse.setSuccess(false);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handlerException(Exception e) {
+        log.error("invoked handlerException \n{}", e.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setException("Exception");
+        errorResponse.setErrorMessage("Oops! something went wrong..");
+        errorResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        errorResponse.setTimestamp(LocalDateTime.now());
+        errorResponse.setSuccess(false);
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

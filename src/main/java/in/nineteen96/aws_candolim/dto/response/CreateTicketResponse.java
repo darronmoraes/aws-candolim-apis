@@ -8,7 +8,8 @@ import lombok.experimental.SuperBuilder;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CreateTicketResponse extends BasicResponseOutput {
 
     private TicketDTO ticket;
