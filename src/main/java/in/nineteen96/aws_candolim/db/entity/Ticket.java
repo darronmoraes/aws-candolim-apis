@@ -34,6 +34,7 @@ public class Ticket implements Serializable {
     private Integer passenger;
 
     @Column(name = "payment_mode", nullable = false)
+    @Enumerated(value = EnumType.STRING)
     private PaymentMode paymentMode;
 
     @Column(name = "gstn", length = 45)
