@@ -4,6 +4,7 @@ import in.nineteen96.aws_candolim.db.entity.Ticket;
 import in.nineteen96.aws_candolim.db.repo.TicketRepo;
 import in.nineteen96.aws_candolim.db.service.IBasicService;
 import in.nineteen96.aws_candolim.db.service.IExtendedBasicService;
+import in.nineteen96.aws_candolim.db.service.ISerialNumberService;
 import in.nineteen96.aws_candolim.exception.TicketNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-public class TicketService implements IBasicService<Ticket>, IExtendedBasicService<Ticket> {
+public class TicketService implements IBasicService<Ticket>, IExtendedBasicService<Ticket>, ISerialNumberService {
 
     private final TicketRepo repo;
 
@@ -43,5 +44,11 @@ public class TicketService implements IBasicService<Ticket>, IExtendedBasicServi
     public Ticket update(Ticket entity) {
         log.debug("updating existing ticket");
         return save(entity);
+    }
+
+    @Override
+    public String getSerialNumber() {
+        log.debug("getting serial number for ticket booking");
+        return repo.getNextSerialNumber();
     }
 }
