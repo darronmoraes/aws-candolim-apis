@@ -53,15 +53,17 @@ public class RegularTicket implements TicketCreationStrategy {
 
         VehicleDTO vehicleDTO = getVehicleDTO(vehicle);
 
+        CreateTicketResponse response = new CreateTicketResponse();
+
+        response.setMessage("commissioned ticket booking success");
+        response.setStatus(HttpStatus.CREATED);
+        response.setTimestamp(LocalDateTime.now());
+        response.setSuccess(true);
+        response.setTicket(ticketDTO);
+        response.setVehicle(vehicleDTO);
+
         log.info("completed commissioned ticket");
-        return CreateTicketResponse.builder()
-                .message("regular ticket booking success")
-                .status(HttpStatus.CREATED)
-                .timestamp(LocalDateTime.now())
-                .success(true)
-                .ticket(ticketDTO)
-                .vehicle(vehicleDTO)
-                .build();
+        return response;
     }
 
 }

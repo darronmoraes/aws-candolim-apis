@@ -4,14 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ErrorResponse extends BasicResponseOutput {
+public class GetPaginatedResponse<T> extends BasicResponseOutput {
 
-    private String errorMessage;
-    private String exception;
+    private List<T> results;
+    private Long totalElements;
+    private Integer totalPages;
+    private Integer currentPage;
+
 }

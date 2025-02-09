@@ -70,16 +70,17 @@ public class CommissionedTicket implements TicketCreationStrategy {
 
         CommissionDTO commissionDTO = getCommissionDTO(commission);
 
+        CreateTicketResponse response = new CreateTicketResponse();
+        response.setMessage("commissioned ticket booking success");
+        response.setStatus(HttpStatus.CREATED);
+        response.setTimestamp(LocalDateTime.now());
+        response.setSuccess(true);
+        response.setTicket(ticketDTO);
+        response.setVehicle(vehicleDTO);
+        response.setCommission(commissionDTO);
+
         log.info("completed commissioned ticket");
-        return CreateTicketResponse.builder()
-                .message("commissioned ticket booking success")
-                .status(HttpStatus.CREATED)
-                .timestamp(LocalDateTime.now())
-                .success(true)
-                .ticket(ticketDTO)
-                .vehicle(vehicleDTO)
-                .commission(commissionDTO)
-                .build();
+        return response;
     }
 
 }
